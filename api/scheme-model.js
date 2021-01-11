@@ -34,10 +34,13 @@ function findSteps(id){
     .where("scheme_id",id)
     .orderBy("s.step_number")
 }
+function getStepsByID(id) {
+    return db("steps").where("id", id).first()
+}
 async function addStep(step, scheme_id){
-    await db("steps")
-    .insert(step)
-    
+   const [id] = await db("steps").insert(step)
+    return getStepsByID(id)
+   
 }
 module.exports = {
     find,
