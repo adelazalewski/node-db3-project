@@ -1,6 +1,6 @@
 const express = require('express');
 
-const Schemes = require('./scheme-model.js');
+const Schemes = require('../scheme-model.js');
 
 const router = express.Router();
 
@@ -54,6 +54,7 @@ router.post('/', (req, res) => {
       res.status(201).json(scheme);
     })
     .catch(err => {
+      console.log(err)
       res.status(500).json({ message: 'Failed to create new scheme' });
     });
 });
@@ -65,12 +66,14 @@ router.post('/:id/steps', (req, res) => {
   Schemes.findById(id)
     .then(scheme => {
       if (scheme) {
+        
         return Schemes.addStep(stepData, id);
       } else {
         res.status(404).json({ message: 'Could not find scheme with given id.' })
       }
     })
     .then(step => {
+       
       res.status(201).json(step);
     })
     .catch(err => {
@@ -94,6 +97,7 @@ router.put('/:id', (req, res) => {
       res.json(updatedScheme);
     })
     .catch(err => {
+      console.log(err)
       res.status(500).json({ message: 'Failed to update scheme' });
     });
 });
